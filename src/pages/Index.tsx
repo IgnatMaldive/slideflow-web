@@ -4,8 +4,16 @@ import { useSlideNavigation } from "@/hooks/useSlideNavigation";
 import { fetchMarkdownContent } from "@/services/contentService";
 import { parseMarkdownToSlides } from "@/utils/markdownParser";
 
+// Update the type to include the level property
+type SlideSection = {
+  title: string;
+  description: string[];
+  level: number;
+};
+
 const Index = () => {
-  const [slides, setSlides] = useState<{ title: string; description: string[] }[]>([]);
+  // Update the state type to use SlideSection
+  const [slides, setSlides] = useState<SlideSection[]>([]);
   const [loading, setLoading] = useState(true);
   const { currentSlide } = useSlideNavigation(slides.length);
 
