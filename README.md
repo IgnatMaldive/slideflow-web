@@ -1,4 +1,4 @@
-# Markdown to Web App
+# Markdown to Web Slides
 
 https://slideflow-web.vercel.app/
 
