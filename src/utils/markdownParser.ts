@@ -1,5 +1,5 @@
 
-type SlideSection = {
+export type SlideSection = {
   title: string;
   description: string[];
   level: number;
