@@ -1,69 +1,51 @@
-# Welcome to your Lovable project
+# Markdown to Web App
 
-## Project info
+https://slideflow-web.vercel.app/
 
-**URL**: https://lovable.dev/projects/04ea04ad-b4dd-4cd9-8d1c-8f1f215d5a01
+## Overview
+This web app allows users to convert Markdown content into a structured slide presentation. The app ensures a clean and organized experience by limiting slides to main sections while embedding subsections within each slide. Additionally, users can customize typography and colors before generating their presentation.
 
-## How can I edit this code?
+## Features
+- **Automatic Slide Structuring**: Generates exactly 10 slides based on top-level headings, embedding subsections within each slide.
+- **Multi-Page Flow**:
+  - **Landing Page**: Introduces the app with a clear call-to-action.
+  - **Creation Page**: Allows users to input Markdown content, select sample templates, and configure typography and colors.
+  - **Presentation Page**: Displays the generated slides with a smooth user interface.
+- **Subtle Top Menu**: Appears on mouse movement and includes export options.
+- **Export Options**:
+  - **Standalone HTML**
+  - **Static PDF**
+- **Local Storage Persistence**: Saves user input for seamless transitions.
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/04ea04ad-b4dd-4cd9-8d1c-8f1f215d5a01) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
+## Installation
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Clone the repository
+git clone https://github.com/yourusername/presentation-app.git
+cd presentation-app
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Install dependencies
+npm install
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+# Run the app
+npm start
 ```
 
-**Edit a file directly in GitHub**
+## Usage
+1. Open the app and click **Get Started**.
+2. Enter or upload Markdown content.
+3. Select typography and color preferences.
+4. Generate and review the presentation.
+5. Use the top menu to export as HTML or PDF.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Development Notes
+- The markdown parser was modified to group subsections within main slides.
+- The `SlideSection` type is now exported from `markdownParser.ts` to avoid import errors.
+- The top menu smoothly appears/disappears based on user interaction.
+- A potential backend enhancement could improve data persistence.
 
-**Use GitHub Codespaces**
+## Contributing
+Feel free to submit pull requests or report issues in the GitHub repository.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## License
+[MIT License](LICENSE)
 
-## What technologies are used for this project?
-
-This project is built with .
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/04ea04ad-b4dd-4cd9-8d1c-8f1f215d5a01) and click on Share -> Publish.
-
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
