@@ -36,11 +36,11 @@
   }
 
   .slide {
-    @apply min-h-screen w-full flex items-center justify-center snap-start snap-always;
+    @apply min-h-screen w-full flex items-center justify-center snap-start snap-always relative py-12;
   }
 
   .slide-content {
-    @apply max-w-4xl mx-auto px-6 opacity-0 translate-y-8 transition-all duration-700;
+    @apply max-w-4xl mx-auto px-6 opacity-0 translate-y-8 transition-all duration-700 w-full;
   }
 
   .slide.active .slide-content {
@@ -48,10 +48,10 @@
   }
 
   .slide-title {
-    @apply text-4xl md:text-6xl font-bold tracking-tight mb-6;
+    @apply text-4xl md:text-6xl font-bold tracking-tight mb-8;
   }
 
   .slide-description {
-    @apply text-lg md:text-xl text-muted-foreground max-w-2xl;
+    @apply text-lg md:text-xl text-muted-foreground max-w-3xl space-y-2;
   }
 }

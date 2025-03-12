@@ -1,39 +1,66 @@
 
+import { useEffect, useState } from "react";
 import { useSlideNavigation } from "@/hooks/useSlideNavigation";
-
-const SLIDES = [
-  {
-    title: "Welcome to the Future",
-    description: "A seamless blend of web and presentation technology",
-  },
-  {
-    title: "Smooth Transitions",
-    description: "Navigate with arrow keys or simply scroll to move between slides",
-  },
-  {
-    title: "Responsive Design",
-    description: "Perfect presentation on any device, any screen size",
-  },
-  {
-    title: "Built for Performance",
-    description: "Lightning-fast transitions and butter-smooth animations",
-  },
-];
+import { fetchMarkdownContent } from "@/services/contentService";
+import { parseMarkdownToSlides } from "@/utils/markdownParser";
 
 const Index = () => {
-  const { currentSlide } = useSlideNavigation(SLIDES.length);
+  const [slides, setSlides] = useState<{ title: string; description: string[] }[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { currentSlide } = useSlideNavigation(slides.length);
+
+  useEffect(() => {
+    const loadContent = async () => {
+      try {
+        setLoading(true);
+        const markdownContent = await fetchMarkdownContent();
+        const parsedSlides = parseMarkdownToSlides(markdownContent);
+        setSlides(parsedSlides);
+      } catch (error) {
+        console.error("Error loading content:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadContent();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-pulse text-2xl">Loading presentation...</div>
+      </div>
+    );
+  }
 
   return (
     <main className="w-full min-h-screen snap-y snap-mandatory overflow-y-auto overflow-x-hidden">
-      {SLIDES.map((slide, index) => (
+      {slides.map((slide, index) => (
         <section
           key={index}
           id={`slide-${index}`}
           className={`slide ${index === currentSlide ? 'active' : ''}`}
         >
           <div className="slide-content">
+            <div className={`text-sm uppercase tracking-wider mb-2 text-muted-foreground`}>
+              {slide.level === 1 ? 'Section' : slide.level === 2 ? 'Sub-section' : 'Topic'}
+            </div>
             <h2 className="slide-title">{slide.title}</h2>
-            <p className="slide-description">{slide.description}</p>
+            <div className="slide-description">
+              {slide.description.map((desc, i) => {
+                // Check if it's a bullet point
+                if (desc.startsWith('- ')) {
+                  return (
+                    <div key={i} className="flex items-start space-x-2 my-1.5">
+                      <span className="text-primary mt-1.5">•</span>
+                      <p className="text-lg">{desc.substring(2)}</p>
+                    </div>
+                  );
+                }
+                return <p key={i} className="my-1.5">{desc}</p>;
+              })}
+            </div>
           </div>
         </section>
       ))}
