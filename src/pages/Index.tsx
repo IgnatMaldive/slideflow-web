@@ -52,13 +52,21 @@ const Index = () => {
         >
           <div className="slide-content">
             <div className={`text-sm uppercase tracking-wider mb-2 text-muted-foreground`}>
-              {slide.level === 1 ? 'Section' : slide.level === 2 ? 'Sub-section' : 'Topic'}
+              Section {index + 1}
             </div>
             <h2 className="slide-title">{slide.title}</h2>
             <div className="slide-description">
               {slide.description.map((desc, i) => {
+                // Check if it's a subsection title (bold text)
+                if (desc.startsWith('**') && desc.endsWith('**')) {
+                  return (
+                    <h3 key={i} className="text-2xl font-semibold mt-6 mb-3">
+                      {desc.substring(2, desc.length - 2)}
+                    </h3>
+                  );
+                }
                 // Check if it's a bullet point
-                if (desc.startsWith('- ')) {
+                else if (desc.startsWith('- ')) {
                   return (
                     <div key={i} className="flex items-start space-x-2 my-1.5">
                       <span className="text-primary mt-1.5">•</span>
