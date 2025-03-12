@@ -1,10 +1,8 @@
-
 import { useEffect, useState } from "react";
 import { useSlideNavigation } from "@/hooks/useSlideNavigation";
-import { fetchMarkdownContent } from "@/services/contentService";
 import { parseMarkdownToSlides } from "@/utils/markdownParser";
+import { useNavigate } from "react-router-dom";
 
-// Update the type to include the level property
 type SlideSection = {
   title: string;
   description: string[];
@@ -12,27 +10,22 @@ type SlideSection = {
 };
 
 const Index = () => {
-  // Update the state type to use SlideSection
   const [slides, setSlides] = useState<SlideSection[]>([]);
   const [loading, setLoading] = useState(true);
   const { currentSlide } = useSlideNavigation(slides.length);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const loadContent = async () => {
-      try {
-        setLoading(true);
-        const markdownContent = await fetchMarkdownContent();
-        const parsedSlides = parseMarkdownToSlides(markdownContent);
-        setSlides(parsedSlides);
-      } catch (error) {
-        console.error("Error loading content:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    const content = localStorage.getItem("presentationContent");
+    if (!content) {
+      navigate("/create");
+      return;
+    }
 
-    loadContent();
-  }, []);
+    const parsedSlides = parseMarkdownToSlides(content);
+    setSlides(parsedSlides);
+    setLoading(false);
+  }, [navigate]);
 
   if (loading) {
     return (
@@ -57,7 +50,6 @@ const Index = () => {
             <h2 className="slide-title">{slide.title}</h2>
             <div className="slide-description">
               {slide.description.map((desc, i) => {
-                // Check if it's a subsection title (bold text)
                 if (desc.startsWith('**') && desc.endsWith('**')) {
                   return (
                     <h3 key={i} className="text-2xl font-semibold mt-6 mb-3">
@@ -65,7 +57,6 @@ const Index = () => {
                     </h3>
                   );
                 }
-                // Check if it's a bullet point
                 else if (desc.startsWith('- ')) {
                   return (
                     <div key={i} className="flex items-start space-x-2 my-1.5">
