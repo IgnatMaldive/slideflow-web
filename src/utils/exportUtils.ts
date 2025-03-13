@@ -142,13 +142,6 @@ export const exportAsHTML = (
           margin: 0 auto;
           padding: 0 1.5rem;
           width: 100%;
-          opacity: 0;
-          transform: translateY(2rem);
-          transition: all 700ms ease;
-        }
-        .slide.active .slide-content {
-          opacity: 1;
-          transform: translateY(0);
         }
         .slide-title {
           font-size: 2.5rem;
@@ -189,22 +182,16 @@ export const exportAsHTML = (
           const slides = document.querySelectorAll('.slide');
           let currentSlide = 0;
           
+          // Initialize all slides as active
+          slides.forEach((slide) => {
+            slide.querySelector('.slide-content').style.opacity = 1;
+            slide.querySelector('.slide-content').style.transform = 'translateY(0)';
+          });
+          
           function goToSlide(index) {
             const newIndex = Math.max(0, Math.min(index, slides.length - 1));
             currentSlide = newIndex;
             document.getElementById('slide-' + newIndex).scrollIntoView({ behavior: 'smooth' });
-          }
-          
-          function handleScroll() {
-            slides.forEach((slide, index) => {
-              const rect = slide.getBoundingClientRect();
-              if (rect.top >= 0 && rect.top <= window.innerHeight / 2) {
-                currentSlide = index;
-                slide.classList.add('active');
-              } else {
-                slide.classList.remove('active');
-              }
-            });
           }
           
           function handleKeyDown(event) {
@@ -215,13 +202,7 @@ export const exportAsHTML = (
             }
           }
           
-          window.addEventListener('scroll', handleScroll);
           window.addEventListener('keydown', handleKeyDown);
-          
-          // Initial activation of the first slide
-          setTimeout(() => {
-            slides[0].classList.add('active');
-          }, 100);
         });
       </script>
     </body>
