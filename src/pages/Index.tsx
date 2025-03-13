@@ -7,12 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Download, FileText, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-
-type SlideSection = {
-  title: string;
-  description: string[];
-  level: number;
-};
+import { type SlideSection } from "@/utils/markdownParser";
 
 const Index = () => {
   const [slides, setSlides] = useState<SlideSection[]>([]);
