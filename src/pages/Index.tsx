@@ -1,7 +1,7 @@
-
 import { useEffect, useState, useRef } from "react";
 import { useSlideNavigation } from "@/hooks/useSlideNavigation";
 import { parseMarkdownToSlides } from "@/utils/markdownParser";
+import { exportAsHTML, exportAsPDF } from "@/utils/exportUtils";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Download, FileText, ArrowLeft } from "lucide-react";
@@ -117,19 +117,33 @@ const Index = () => {
   const fontClasses = getFontClasses();
 
   const exportHTML = () => {
-    // This is a simplified export - would need server-side implementation for full HTML
-    toast({
-      title: "Export not implemented",
-      description: "HTML export would require server-side implementation",
-    });
+    try {
+      exportAsHTML(slides, font, colorScheme);
+      toast({
+        title: "Export successful",
+        description: "Your presentation has been exported as an HTML file",
+      });
+    } catch (error) {
+      console.error("Error exporting HTML:", error);
+      toast({
+        title: "Export failed",
+        description: "An error occurred while exporting the HTML file",
+        variant: "destructive",
+      });
+    }
   };
 
   const exportPDF = () => {
-    // This is a simplified export - would need server-side implementation for full PDF
-    toast({
-      title: "Export not implemented",
-      description: "PDF export would require server-side implementation",
-    });
+    try {
+      exportAsPDF();
+    } catch (error) {
+      console.error("Error exporting PDF:", error);
+      toast({
+        title: "Export failed",
+        description: "An error occurred while exporting to PDF",
+        variant: "destructive",
+      });
+    }
   };
 
   if (loading) {
