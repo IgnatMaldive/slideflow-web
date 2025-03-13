@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useRef } from "react";
 import { useSlideNavigation } from "@/hooks/useSlideNavigation";
 import { parseMarkdownToSlides } from "@/utils/markdownParser";
@@ -16,7 +17,7 @@ const Index = () => {
   const [menuOpacity, setMenuOpacity] = useState(0);
   const [font, setFont] = useState("inter");
   const [colorScheme, setColorScheme] = useState("default");
-  const { currentSlide } = useSlideNavigation(slides.length);
+  const { currentSlide, slideDirection } = useSlideNavigation(slides.length);
   const navigate = useNavigate();
   const { toast } = useToast();
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -181,7 +182,11 @@ const Index = () => {
         <section
           key={index}
           id={`slide-${index}`}
-          className={`slide bg-gradient-to-b ${colorClasses.background} ${index === currentSlide ? 'active' : ''}`}
+          className={cn(
+            `slide bg-gradient-to-b ${colorClasses.background}`,
+            index === currentSlide ? 'active' : '',
+            slideDirection ? `direction-${slideDirection}` : ''
+          )}
         >
           <div className="slide-content">
             <div className="text-sm uppercase tracking-wider mb-2 text-muted-foreground">

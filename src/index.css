@@ -40,11 +40,30 @@
   }
 
   .slide-content {
-    @apply max-w-4xl mx-auto px-6 opacity-0 translate-y-8 transition-all duration-700 w-full;
+    @apply max-w-4xl mx-auto px-6 opacity-0 transition-all duration-700 w-full;
+  }
+
+  /* Basic slide animations */
+  .slide-content {
+    @apply translate-y-8;
   }
 
   .slide.active .slide-content {
     @apply opacity-100 translate-y-0;
+  }
+
+  /* Direction-specific animations */
+  .slide.direction-up .slide-content {
+    @apply -translate-y-8;
+  }
+
+  .slide.direction-down .slide-content {
+    @apply translate-y-8;
+  }
+
+  .slide.active.direction-up .slide-content,
+  .slide.active.direction-down .slide-content {
+    @apply translate-y-0;
   }
 
   .slide-title {

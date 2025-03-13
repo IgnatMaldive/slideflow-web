@@ -3,9 +3,18 @@ import { useEffect, useState } from 'react';
 
 export const useSlideNavigation = (totalSlides: number) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [slideDirection, setSlideDirection] = useState<'up' | 'down' | null>(null);
 
   const goToSlide = (index: number) => {
     const newIndex = Math.max(0, Math.min(index, totalSlides - 1));
+    
+    // Set direction based on navigation
+    if (newIndex > currentSlide) {
+      setSlideDirection('down');
+    } else if (newIndex < currentSlide) {
+      setSlideDirection('up');
+    }
+    
     setCurrentSlide(newIndex);
     document.getElementById(`slide-${newIndex}`)?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -24,7 +33,11 @@ export const useSlideNavigation = (totalSlides: number) => {
       slides.forEach((slide, index) => {
         const rect = slide.getBoundingClientRect();
         if (rect.top >= 0 && rect.top <= window.innerHeight / 2) {
-          setCurrentSlide(index);
+          // Only update direction if we're changing slides
+          if (index !== currentSlide) {
+            setSlideDirection(index > currentSlide ? 'down' : 'up');
+            setCurrentSlide(index);
+          }
           slide.classList.add('active');
         } else {
           slide.classList.remove('active');
@@ -41,5 +54,5 @@ export const useSlideNavigation = (totalSlides: number) => {
     };
   }, [currentSlide, totalSlides]);
 
-  return { currentSlide, goToSlide };
+  return { currentSlide, goToSlide, slideDirection };
 };

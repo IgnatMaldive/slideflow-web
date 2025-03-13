@@ -181,8 +181,9 @@ export const exportAsHTML = (
         document.addEventListener('DOMContentLoaded', function() {
           const slides = document.querySelectorAll('.slide');
           let currentSlide = 0;
+          let slideDirection = null;
           
-          // Initialize all slides as active
+          // Initialize all slides
           slides.forEach((slide) => {
             slide.querySelector('.slide-content').style.opacity = 1;
             slide.querySelector('.slide-content').style.transform = 'translateY(0)';
@@ -190,6 +191,14 @@ export const exportAsHTML = (
           
           function goToSlide(index) {
             const newIndex = Math.max(0, Math.min(index, slides.length - 1));
+            
+            // Set direction based on navigation
+            if (newIndex > currentSlide) {
+              slideDirection = 'down';
+            } else if (newIndex < currentSlide) {
+              slideDirection = 'up';
+            }
+            
             currentSlide = newIndex;
             document.getElementById('slide-' + newIndex).scrollIntoView({ behavior: 'smooth' });
           }
